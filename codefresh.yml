@@ -5,12 +5,11 @@ steps:
      type: build
      dockerfile: Dockerfile
      image-name: containers101/demochat
-     tag: master
+     tag: ${{CF_BRANCH}}
 
   unit-tests:
       image: ${{build-step}}
       fail-fast: false
-#      working-directory : ${{initial-clone}}
       commands:
         - npm test
         - echo $(date)
