@@ -1,0 +1,37 @@
+version: '1.0'
+steps:
+
+  build-step:
+     type: build
+     dockerfile: Dockerfile
+     image-name: containers101/demochat
+     tag: master
+
+  unit-tests:
+      image: ${{build-step}}
+      fail-fast: false
+#      working-directory : ${{initial-clone}}
+      commands:
+        - npm test
+        - echo $(date)
+
+  demo-chat compositon:
+      type: composition
+      composition:
+        version: '2'
+        services:
+         app:
+           image: ${{build-step}}
+           mem_limit: 150000000
+           links:
+             - mongo
+           ports:
+             - 3000
+         mongo:
+           image: 'mongo:latest'
+           mem_limit: 150000000
+           command: mongod --smallfiles
+      composition-candidates:
+        main:
+          image: nhoag/curl
+          command: bash -c "sleep 20 && curl http://app:5000/" | echo 'works'
