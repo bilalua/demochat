@@ -26,10 +26,10 @@ steps:
             - 5000
         mongo:
           image: mongo
-      composition-candidates:
-        test:
-          image: razielt/taurus:master
-          command: bach -c "bzt letschat.yml -report -o modules.blazemeter.token=$BLAZE_TOKEN -o modules.blazemeter.test=letschat"
+    composition-candidates:
+      test:
+        image: razielt/taurus:master
+        command: bach -c "bzt letschat.yml -report -o modules.blazemeter.token=$BLAZE_TOKEN -o modules.blazemeter.test=letschat"
 
   demo-chat compositon:
       type: composition
