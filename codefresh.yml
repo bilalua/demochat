@@ -14,6 +14,23 @@ steps:
         - npm test
         - echo $(date)
 
+  integration-tests:
+    type: composition
+    fail-fast: false
+    composition:
+      version: '2'
+      services:
+        aut:
+          image: ${{build-step}}
+          ports:
+            - 5000
+        mongo:
+          image: mongo
+      composition-candidates:
+        test:
+          image: razielt/taurus:master
+          command: bach -c "bzt letschat.yml -report -o modules.blazemeter.token=$BLAZE_TOKEN -o modules.blazemeter.test=letschat"
+
   demo-chat compositon:
       type: composition
       composition:
@@ -34,3 +51,16 @@ steps:
         main:
           image: nhoag/curl
           command: bash -c "sleep 20 && curl http://app:5000/" | echo 'works'
+
+  launch demochat:
+    type: launch-composition
+    environmentName: 'ENV-DEMO-CHAT'
+    composition:
+      version: '2'
+      services:
+        aut:
+          image: ${{build-step}}
+          ports:
+            - 5000
+        mongo:
+          image: mongo
