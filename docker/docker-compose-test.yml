@@ -1,7 +1,7 @@
 version: '2'
 services:
   aut:
-    image: demochat
+    image: ncodefresh/demochat:1481374018
     ports:
       - 5000
   mongo:
