@@ -1,0 +1,8 @@
+version: '2'
+services:
+  aut:
+    image: demochat
+    ports:
+      - 5000
+  mongo:
+    image: mongo
